@@ -1,0 +1,77 @@
+$mobile-width: 750px;
+$tablet-width: 1024px;
+
+* { box-sizing: border-box; }
+
+grid {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	flex-wrap: wrap;
+
+	cell {
+		box-sizing: border-box;
+		flex: 0 0 auto;
+
+		/*background: black;
+		padding: 1em;
+		color: white;*/
+	}
+
+	&.space-evenly {
+		justify-content: space-evenly;
+	}
+
+	&.center {
+		align-items: center;
+	}
+
+	&.stretch {
+		align-items: stretch;
+	}
+}
+
+cell[default=auto],
+cell[x=auto],
+cell[xx=auto],
+cell[xxx=auto] {
+	flex-grow: 1;
+}
+
+@mixin cell($type) {
+	@for $i from 1 through 12 {
+		cell[#{$type}="#{$i}"] {
+			flex-basis: (100% / 12) * $i;
+			flex-grow: unset;
+		}
+		@for $j from 1 through 4 {
+			cell[#{$type}="#{$i}~#{$j}"] {
+				flex-basis: calc( #{(100% / 12) * $i} - #{20px * $j} );
+				margin-bottom: 20px * $j;
+				margin-right: 10px * $j;
+				margin-left: 10px * $j;
+				flex-grow: unset;
+			}
+		}
+	}
+}
+
+@include cell("default");
+
+/* Mobile */
+@media only screen and (max-width: $mobile-width) {
+	@include cell("x");
+	.hide-x { display: none !important; }
+}
+
+/* Tablet */
+@media only screen and (min-width: $mobile-width) and (max-width: $tablet-width) {
+	@include cell("xx");
+	.hide-xx { display: none !important; }
+}
+
+/* Desktop */
+@media only screen and (min-width: $tablet-width) {
+	@include cell("xxx");
+	.hide-xxx { display: none !important; }
+}
