@@ -1,6 +1,9 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
+// FIXME:
+// node node_modules/node-sass/scripts/install.js
+
 module.exports = {
     entry: [
         './assets/sass/index.scss'
