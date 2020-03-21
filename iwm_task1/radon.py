@@ -9,6 +9,7 @@ import matplotlib.pyplot
 from skimage import exposure
 from scipy.fftpack import fft, ifft, fftfreq
 import sys, IPython.core.ultratb
+from tqdm import tqdm
 
 oo = +4294967295  # tak wyglada nieskonczonosc
 sys.excepthook = IPython.core.ultratb.ColorTB()
@@ -20,18 +21,40 @@ import pydicom
 # [MUSIC]
 # 46 minutes // looped https://www.youtube.com/watch?v=e8LLu4SPnSo
 # 10 minutes // looped https://www.youtube.com/watch?v=tjRe2l64_v8
+# mhmhm, dzis pojde pozno spac
+
+CONFIG = {
+    "path": "data/Shepp_logan.jpg",
+    "shape": (320, 320),
+    "alpha": 180 / (360),
+    "rays": 360,
+    "l": 270 / np.pi,
+    "filtered": True,
+}
+
+"""
+CONFIG = {
+    "path": "data/Shepp_logan.jpg",
+    "shape": (600, 600),
+    "alpha": 0.5,
+    "rays": 1000,
+    "l": 600 / np.pi,
+    "filtered": True,
+}
+"""
 
 """
 CONFIG = {
     "path": "data/Shepp_logan.jpg",
     "shape": (320, 320),
-    "alpha": 1,
-    "rays": 180,
-    "l": 180 / np.pi,
+    "alpha": 180 / (2 * 90),
+    "rays": 2 * 90,
+    "l": 4 * 45 / np.pi,
     "filtered": True,
 }
 """
 
+"""
 CONFIG = {
     "path": "data/SADDLE_PE.JPG",
     # "path": "data/Shepp_logan.jpg",
@@ -42,6 +65,7 @@ CONFIG = {
     "l": 100,  # XXX: l -> powinno byc male
     "filtered": True,
 }
+"""
 
 ################################################################################
 
@@ -80,7 +104,7 @@ def fn_clip(img, val=1.0, agressive=False):
 
     if agressive:  # blackhole solutions
         img = _fast_fn_noise_reduction(img)
-        if CONFIG["rays"] > min(*img.shape):
+        if CONFIG["rays"] >= 1000:
             p2, p98 = np.percentile(img, (0.5, 99.5))
         else:
             img = exposure.adjust_log(img, 1)
@@ -310,6 +334,85 @@ def fn_save_dicom(filename="data/test.dcm", data={}):
 
 ################################################################################
 
+
+def fn_rmse(img, CONFIG):
+    CONFIG = fn_autoparam(CONFIG, img.shape)
+    pprint(CONFIG)
+
+    print("[1 step] img -> sinogram (~3 sec)")
+    sinogram, lines = fn_tomograph(
+        img, alpha=CONFIG["alpha"], rays=CONFIG["rays"], l=CONFIG["l"]
+    )
+
+    print("[2 step] sinogram -> img (~3 sec)")
+    ctimg = fn_fbp(
+        img.shape, sinogram, lines, filtered=CONFIG["filtered"], n_slices=6
+    )
+
+    print("[3 step] processing")
+    ctimg_clip = fn_clip(ctimg[-1], agressive=CONFIG["filtered"])
+
+    rmse = fn_calc_rmse(ctimg_clip, img)
+    print(f"RMSE={rmse}")
+    return rmse
+
+
+################################################################################
+
+if __name__ == "__main__ (all)":
+    img = fn_load(CONFIG["path"])
+    CONFIG_DEFAULT = copy(CONFIG)
+
+    rp, rn = 200, 8
+    ap, an = 90, 8
+    lp, ln = 45, 20
+
+    """
+    rp, rn = 90, 8
+    ap, an = 90, 8
+    lp, ln = 45, 6
+    """
+
+    rmse = 0
+
+    Y_R, X_R = [], []
+    CONFIG = copy(CONFIG_DEFAULT)
+    for P in tqdm(range(1, rn + 1)):
+        print(f"\033[92mP={P}\033[m")
+        CONFIG["rays"] = P * rp
+        rmse = fn_rmse(img, CONFIG)
+        X_R.append(P * rp)
+        Y_R.append(rmse)
+
+    Y_A, X_A = [], []
+    CONFIG = copy(CONFIG_DEFAULT)
+    for P in tqdm(range(1, an + 1)):
+        print(f"\033[92mP={P}\033[m")
+        CONFIG["alpha"] = 180 / (P * ap)
+        rmse = fn_rmse(img, CONFIG)
+        X_A.append(P * ap)
+        Y_A.append(rmse)
+
+    Y_L, X_L = [], []
+    CONFIG = copy(CONFIG_DEFAULT)
+    for P in tqdm(range(1, ln + 1)):
+        print(f"\033[92mP={P}\033[m")
+        CONFIG["l"] = (P * lp) / np.pi
+        rmse = fn_rmse(img, CONFIG)
+        X_L.append(P * lp)
+        Y_L.append(rmse)
+
+    print("R")
+    pprint(Y_R)
+
+    print("A")
+    pprint(Y_A)
+
+    print("L")
+    pprint(Y_L)
+
+################################################################################
+
 if __name__ == "__main__":
     img = fn_load(CONFIG["path"])
     CONFIG = fn_autoparam(CONFIG, img.shape)
@@ -330,7 +433,7 @@ if __name__ == "__main__":
     fn_save("2_ctimg.png", ctimg[-1])
 
     print("[3 step] processing")
-    ctimg_clip = fn_clip(ctimg[-1], agressive=True)
+    ctimg_clip = fn_clip(ctimg[-1], agressive=CONFIG["filtered"])
 
     fn_save("3_ctimg_clip.png", ctimg_clip)
     fn_save("3_ctimg_orginal.png", img)
