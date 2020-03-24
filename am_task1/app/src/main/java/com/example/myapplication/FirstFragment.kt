@@ -119,6 +119,7 @@ class FirstFragment : Fragment() {
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .show()
 
+                    globalVar = (0..20).random();
                     globalI = 0;
                 }
             }
@@ -128,10 +129,11 @@ class FirstFragment : Fragment() {
         view.findViewById<Button>(R.id.button_new).setOnClickListener {
             println("restart");
 
-            textView.setText("nowa gra, zaczynaj!");
-
             globalI = 0;
             globalVar = (0..20).random();
+
+            textView.setText("nowa gra, zaczynaj!");
+            textView_i.setText("ilosc ruchow: " + globalI.toString());
 
             AlertDialog.Builder(context)
                 .setTitle("Nowa Gra")
