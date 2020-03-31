@@ -5,7 +5,23 @@
  * @license
  * Nani | Released under MIT license | Copyright Maciej A. Czyzewski
  */
-var nani=function(){function t(){Array.prototype.forEach.call(document.querySelectorAll("[\\@]"),function(t,e){t.setAttribute("id","i"+e),Array.prototype.forEach.call(t.querySelectorAll("[\\#]"),function(e,n){nani.defs["#"][e.getAttribute("#")](t,e)})}),function t(){var t=function(t){t.target.setAttribute("value",t.target.value)};Array.prototype.forEach.call(document.querySelectorAll("input"),function(e,n){e.addEventListener("input",t,!1)})}()}function e(){Array.prototype.forEach.call(document.querySelectorAll("[\\!]"),function(t,n){t.onclick=function(t){var n=function t(e){return function n(t,e){return null!==t.getAttribute(e)}(e,"@")?e:t(e.parentNode)}(t.target);nani.defs["!"][t.target.getAttribute("!")](n,t.target),e()}})}return Element.prototype.remove=function(){this.parentElement.removeChild(this)},Element.prototype.set=function(t,e){this.setAttribute("js-"+t,e)},Element.prototype.get=function(t){return this.getAttribute("js-"+t)},document.addEventListener("DOMContentLoaded",function(){t(),e()}),{render:t,defs:{"#":{},"!":{}}}}();
+var nani=function(){function t(){
+Array.prototype.forEach.call(document.querySelectorAll("[\\@]"),function(t,e){
+t.setAttribute("id","i"+e),
+Array.prototype.forEach.call(t.querySelectorAll("[\\#]"),function(e,n){
+nani.defs["#"][e.getAttribute("#")](t,e)})}),function t(){var t=function(t){
+t.target.setAttribute("value",t.target.value)}
+;Array.prototype.forEach.call(document.querySelectorAll("input"),function(e,n){
+e.addEventListener("input",t,!1)})}()}function e(){
+Array.prototype.forEach.call(document.querySelectorAll("[\\!]"),function(t,n){
+t.onclick=function(t){var n=function t(e){return function n(t,e){
+return null!==t.getAttribute(e)}(e,"@")?e:t(e.parentNode)}(t.target)
+;nani.defs["!"][t.target.getAttribute("!")](n,t.target),e()}})}
+return Element.prototype.remove=function(){this.parentElement.removeChild(this)
+},Element.prototype.set=function(t,e){this.setAttribute("js-"+t,e)},
+Element.prototype.get=function(t){return this.getAttribute("js-"+t)},
+document.addEventListener("DOMContentLoaded",function(){t(),e()}),{render:t,
+defs:{"#":{},"!":{}}}}();
 ```
 
 ---
