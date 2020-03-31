@@ -1,0 +1,138 @@
+<html>
+
+<head>
+
+    <!-- framework (0.1kB) -->
+
+    <script src="nani.min.js"></script>
+
+    <!-- styles -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+
+    <style>
+        body {
+            padding: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        cell {
+            box-sizing: border-box;
+            display: inline-block;
+            width: 33%;
+            background: rgb(211, 211, 211);
+            padding: 10px;
+        }
+
+        cell input {
+            width: 100%;
+        }
+
+        li:nth-child(odd) cell {
+            background: initial;
+        }
+
+        .header cell,
+        li.header {
+            background: initial !important;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+
+    <!-- example -->
+
+    <script>
+        nani.defs = {
+            '#': {
+                'data': function(component, el) {
+                    var input = el.querySelectorAll("input");
+
+                    if (component.get('edit') == true) {
+                        if (input.length == 0) {
+                            el.innerHTML = `
+								<input type="text" value="${el.innerHTML}">
+							`;
+                        }
+                    } else {
+                        if (input.length != 0) {
+                            el.innerHTML = `${input[0].value}`;
+                        }
+                    }
+                },
+                'menu': function(component, el) {
+                    if (component.get('edit') == true) {
+                        el.innerHTML = `
+							<button !=save>save</button>
+							<button !=remove>remove</button>
+						`;
+                    } else {
+                        el.innerHTML = `
+							<button !=edit>edit</button>
+							<button !=remove>remove</button>
+						`;
+                    }
+                }
+            },
+            '!': {
+                'remove': function(component, el) {
+                    component.remove();
+                },
+                'edit': function(component, el) {
+                    component.set('edit', 1);
+                    nani.render();
+                },
+                'save': function(component, el) {
+                    component.set('edit', 0);
+                    nani.render();
+                },
+                'new': function(component, el) {
+                    var ul = document.querySelectorAll("ul")[0];
+                    ul.insertAdjacentHTML('beforeend', `
+						<li js-edit=1 @>
+							<cell #=data>?</cell>
+							<cell #=data>?</cell>
+							<cell #=menu>?</cell>
+						</li>
+					`);
+                    nani.render();
+                }
+            }
+        };
+    </script>
+
+</head>
+
+<body>
+    <h1>Welcome to my book collection</h1>
+    <button @ !=new>Add new book</button>
+
+    <ul>
+        <li class="header">
+            <cell>Name</cell>
+            <cell>Author</cell>
+            <cell>Action</cell>
+        </li>
+        <li js-edit=1 @>
+            <cell #=data>Daniel Kahneman</cell>
+            <cell #=data>Thinking, Fast and Slow</cell>
+            <cell #=menu>?</cell>
+        </li>
+        <li @>
+            <cell #=data>Maciej A. Czyzewski</cell>
+            <cell #=data>Reading Rainbow</cell>
+            <cell #=menu>?</cell>
+        </li>
+    </ul>
+</body>
+
+</html>
