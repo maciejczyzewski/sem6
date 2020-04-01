@@ -1,0 +1,62 @@
+<html>
+
+<head>
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+    <script>
+        // example implementation
+        // from: https://developers.google.com/web/fundamentals/primers/promises
+
+        function get(url) {
+            // Return a new promise.
+            return new Promise(function(resolve, reject) {
+                // Do the usual XHR stuff
+                var req = new XMLHttpRequest();
+                req.open('GET', url);
+
+                req.onload = function() {
+                    // This is called even on 404 etc
+                    // so check the status
+                    if (req.status == 200) {
+                        // Resolve the promise with the response text
+                        resolve(req.response);
+                    } else {
+                        // Otherwise reject with the status text
+                        // which will hopefully be a meaningful error
+                        reject(Error(req.statusText));
+                    }
+                };
+
+                // Handle network errors
+                req.onerror = function() {
+                    reject(Error("Network Error"));
+                };
+
+                // Make the request
+                req.send();
+            });
+        }
+
+        $(function() {
+            get('guitars.json').then(function(response) {
+                var data = $.parseJSON(response);
+                $.each(data.Guitars.Guitar, function(i, d) {
+                    console.log(i, d);
+                    $("ul").append(`<li><b>${d.Brand}</b>: ${d.Model}</li>`);
+                });
+            }, function(error) {
+                alert("Sorry to bother you, it's not working!");
+            })
+        });
+    </script>
+
+</head>
+
+<body>
+
+    <ul></ul>
+
+</body>
+
+</html>

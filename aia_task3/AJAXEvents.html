@@ -1,0 +1,53 @@
+<html>
+
+<head>
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+    <script>
+        $(function() {
+            function edit(e) {
+                if ($(this).has("input").length != 0) return;
+                $(this).html(`<input type="text" id="edit"
+					value="${$(this).text()}" />`);
+                $("#edit").on("blur", function() {
+                    this.outerHTML = $(this).val();
+                    $('button').trigger('asdf'); // XXX
+                });
+                $("#edit").focus();
+            }
+
+            $('td').on('click', edit);
+
+            $('button').bind('asdf', function() {
+                alert('The cake is a lie!');
+            });
+
+            // XXX: $('*').unbind();
+        })
+    </script>
+
+</head>
+
+<body>
+
+    <button>asdf</button>
+
+    <table>
+        <tr>
+            <td>One</td>
+        </tr>
+        <tr>
+            <td>Two</td>
+        </tr>
+        <tr>
+            <td>Three</td>
+        </tr>
+        <tr>
+            <td>...</td>
+        </tr>
+    </table>
+
+</body>
+
+</html>

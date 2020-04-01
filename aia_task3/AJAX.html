@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- 
+	[CORS policy] workaround
+	python3 -m http.server
+-->
+    <meta charset="utf-8" />
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <style>
+        a {
+            margin: 10px;
+        }
+
+        #content {
+            border: 1px solid black;
+            padding: 20px;
+            width: 50%;
+        }
+    </style>
+    <script type="text/javascript">
+        $(function() {
+            // [part 1]
+            // okay, animations are not blocking the flow
+            /* $('a').click(function() {
+				$('#content').fadeOut();
+                $('#content').load('AJAX' + $(this).attr('href'));
+                $('#content').fadeIn();
+
+				return false;
+            });*/
+
+            // [part 2]
+            // we added a callback that makes fadeIn only
+            // if content is loaded
+            /* $('a').click(function() {
+                let thisA = $(this);
+                $('#content').fadeOut('medium', function() {
+                    $('#content').load('AJAX' + thisA.attr('href'), function() {
+                        $('#content').fadeIn();
+                    });
+                });
+                return false;
+            }); */
+
+            // [part 3]
+            // return false don't moves client to specific page ex.
+            // AJAXStyles.html
+            $('a').click(function() {
+                $('#content').animate({
+                    height: '0px',
+                    width: '0px'
+                }, () => {
+                    $('#content').load('AJAX' + $(this).attr('href'), () => {
+                        $('#content').animate({
+                            height: '500px',
+                            width: '500px'
+                        });
+                    });
+                });
+                return false;
+            });
+
+            $('a:first-child').trigger('click');
+        });
+    </script>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a href="Selectors.html">Page 1</a>
+            <a href="Styles.html">Page 2</a>
+            <a href="Events.html">Page 3</a>
+        </nav>
+    </header>
+    <div id="content"></div>
+</body>
+
+</html>

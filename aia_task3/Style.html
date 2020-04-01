@@ -1,0 +1,98 @@
+<html>
+
+<head>
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+    <script>
+        $(function() {
+            $('button:contains(\'A\')').click(function() {
+                $('#classic').addClass('asdf');
+            });
+            $('button:contains(\'B\')').click(function() {
+                $('#classic').removeClass('asdf');
+            });
+            $('button:contains(\'C\')').click(function() {
+                $('#toggle').toggleClass('asdf');
+            });
+
+            $('tr:even').addClass('asdf');
+
+            function _x(t) {
+                for (var e, u = document.evaluate(t, document, null,
+                        XPathResult.ANY_TYPE, null), n = []; e = u.iterateNext();) {
+                    n.push(e)
+                }
+                return n
+            }
+
+            // [9] / result -> green background
+            // xpath: $x('//li[@class="a"][descendant::*[@class="b"]/a]')
+            $(_x('//li[@class="a"][not(descendant::*[@class="b"]/a)]')).addClass('asdf2');
+        });
+    </script>
+
+    <style>
+        .asdf {
+            background: Pink;
+        }
+
+        .asdf2 {
+            background: green;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <ul>
+        <li class="a">
+            <div class="b">
+                <a href="#">no!</a>
+            </div>
+        </li>
+        <li class="a">
+            ok!
+            <div class="b">
+                <span>;-)</a>
+            </div>
+        </li>
+        <li>
+            <div class="b">
+                <a href="#">no!</a>
+            </div>
+        </li>
+        <li>
+            no!
+        </li>
+    </ul>
+
+
+    <table>
+        <tr>
+            <td>First</td>
+        </tr>
+        <tr>
+            <td>Second</td>
+        </tr>
+        <tr>
+            <td>Third</td>
+        </tr>
+        <tr>
+            <td>Fourth</td>
+        </tr>
+        <tr>
+            <td>Fifth</td>
+        </tr>
+        <tr>
+            <td>Sixth/td>
+        </tr>
+    </table>
+    <div><button>Text A</button><button>Text B</button><span id="classic">Adding/removing
+            class</span></div>
+    <div><button>Text C</button><span id="toggle">Toggling class</span></div>
+
+</body>
+
+</html>
