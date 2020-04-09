@@ -378,10 +378,144 @@ ekzpozycji swiatla ma lekkie przebicie - pojawiaja sie szumy w postaci drobnych
 plamek/kreseczek (mozna probowac je usunac jakims filtrem, jednak nie
 przeszkadza to w intrepretacji obrazu).
 
-\section{Uwage}
+\section{Uwaga}
 
 Aby przetestowac skrypt wystarczy skopiowac go do Google Colab. Instaluje on sam
 potrzebne pakiety oraz sciaga moje wagi, ktore uzylem w
 eksperymencie. W innym przypadku wymagany jest ponowny trening.
+
+\section{Bonus (uzupelnienia na prosbe)}
+
+Dodatkowe parametry dla wszystkich obrazkow ze zbioru testowego (rowniez dla
+poszczególnych zdjec). Dodalem opcje {\tt \-\-bonus} do glownego pliku w
+projekcie (mozna tam tez wlaczyc opcje wizualizacji).
+Naglowek {\tt name=<idx>} posluguje sie tymi samymi numerami co w tabelce wyzej,
+tak jak i w zestawieniach wizualnych (w kolejnosci).
+
+\subsection{Detektor}
+\begin{minted}[mathescape,
+               linenos,
+               numbersep=5pt,
+               gobble=0,
+               frame=lines,
+			   framesep=2mm]{python}
+=== (name=all) ===
+[[4405967  222180]
+ [  45200  121853]]
+Global Accuracy: 0.9442400734067401
+Specificity: 0.9519937460931989
+Sensitivity: 0.729427187778729
+Precision: 0.35418985969369216
+F1 score (F-measure): 0.47683951428918026
+Jaccard similarity score: 0.3130592729804513
+=== (name=0) ===
+[[895445  35507]
+ [  8851  19237]]
+Global Accuracy: 0.9537474974974975
+Specificity: 0.9618594728836718
+Sensitivity: 0.684883224152663
+Precision: 0.3513992400993716
+F1 score (F-measure): 0.4644823256712382
+Jaccard similarity score: 0.30249233430301126
+=== (name=1) ===
+[[873752  46918]
+ [ 12448  25922]]
+Global Accuracy: 0.9380985151818485
+Specificity: 0.9490392866064931
+Sensitivity: 0.675579880114673
+Precision: 0.3558758923668314
+F1 score (F-measure): 0.4661810988220484
+Jaccard similarity score: 0.30393490291717473
+=== (name=2) ===
+[[873402  50457]
+ [  8657  26524]]
+Global Accuracy: 0.9383612779446113
+Specificity: 0.9453845229629196
+Sensitivity: 0.7539296779511668
+Precision: 0.3445525519283979
+F1 score (F-measure): 0.4729587560849486
+Jaccard similarity score: 0.3097223195310493
+=== (name=3) ===
+[[873514  47711]
+ [  9446  28369]]
+Global Accuracy: 0.9404018601935269
+Specificity: 0.9482091779966892
+Sensitivity: 0.7502049451275948
+Precision: 0.3728838065194532
+F1 score (F-measure): 0.4981605865051143
+Jaccard similarity score: 0.3317003016626523
+=== (name=4) ===
+[[889854  41587]
+ [  5798  21801]]
+Global Accuracy: 0.9505912162162162
+Specificity: 0.9553519761316068
+Sensitivity: 0.7899199246349505
+Precision: 0.34392945036915507
+F1 score (F-measure): 0.4792113159022718
+Jaccard similarity score: 0.31510710259301017
+\end{minted}
+
+\subsection{Naiwna (sato fitler)}
+\begin{minted}[mathescape,
+               linenos,
+               numbersep=5pt,
+               gobble=0,
+               frame=lines,
+			   framesep=2mm]{python}
+=== (name=all) ===
+[[4627992     155]
+ [ 166968      85]]
+Global Accuracy: 0.9651478561895228
+Specificity: 0.9999665092746622
+Sensitivity: 0.0005088205539559302
+Precision: 0.3541666666666667
+F1 score (F-measure): 0.0010161811910839066
+Jaccard similarity score: 0.0005083488828285728
+=== (name=0) ===
+[[930921     31]
+ [ 28077     11]]
+Global Accuracy: 0.9706915248581915
+Specificity: 0.9999667007536371
+Sensitivity: 0.0003916263172885218
+Precision: 0.2619047619047619
+F1 score (F-measure): 0.000782083185211518
+Jaccard similarity score: 0.0003911945659518475
+=== (name=1) ===
+[[920622     48]
+ [ 38338     32]]
+Global Accuracy: 0.9599745578912245
+Specificity: 0.9999478640555248
+Sensitivity: 0.000833984884023977
+Precision: 0.4
+F1 score (F-measure): 0.0016644993498049416
+Jaccard similarity score: 0.0008329428913530116
+=== (name=2) ===
+[[923832     27]
+ [ 35172      9]]
+Global Accuracy: 0.9632976726726726
+Specificity: 0.9999707747610836
+Sensitivity: 0.00025581990278843696
+Precision: 0.25
+F1 score (F-measure): 0.0005111167901865576
+Jaccard similarity score: 0.0002556237218813906
+=== (name=3) ===
+[[921208     17]
+ [ 37801     14]]
+Global Accuracy: 0.9605668168168168
+Specificity: 0.999981546310619
+Sensitivity: 0.0003702234563004099
+Precision: 0.45161290322580644
+F1 score (F-measure): 0.0007398404058553083
+Jaccard similarity score: 0.000370057094523155
+=== (name=4) ===
+[[931409     32]
+ [ 27580     19]]
+Global Accuracy: 0.9712087087087087
+Specificity: 0.999965644630202
+Sensitivity: 0.0006884307402442117
+Precision: 0.37254901960784315
+F1 score (F-measure): 0.0013743218806509946
+Jaccard similarity score: 0.000687633455177156
+\end{minted}
 
 \end{document}

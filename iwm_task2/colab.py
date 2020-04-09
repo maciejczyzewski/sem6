@@ -96,6 +96,7 @@ torch.backends.cudnn.deterministic = True
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 parser = argparse.ArgumentParser(description="PyTorch CHASEDB1 Training")
+parser.add_argument("--bonus", "-b", action="store_true")
 parser.add_argument("--train", "-t", action="store_true")
 parser.add_argument("--test", "-p", action="store_true")
 args = parser.parse_args()
@@ -971,7 +972,104 @@ def test(X, Y):
 
 ################################################################################
 
+
+def bonus(use_naive=False):
+    """
+    Fair compare.
+    https://github.com/orobix/retina-unet/blob/master/src/retinaNN_predict.py
+    """
+    from sklearn.metrics import confusion_matrix
+    from sklearn.metrics import precision_recall_curve
+    from sklearn.metrics import jaccard_score
+    from sklearn.metrics import f1_score
+
+    y_pred, y_true = [], []
+    for filename in sorted(glob("idx*_s64_out1_p.png")):
+        if not use_naive:
+            y_pred.append(io.imread(filename, as_gray=True))
+        else:
+            from skimage.filters import sato
+
+            kwargs = {"sigmas": [1], "black_ridges": 1}
+            raw = io.imread(filename.replace("1_p", "3_x"), as_gray=True)
+            img = sato(raw, **kwargs)
+            # plt.figure()
+            # plt.imshow(img)
+            # plt.show()
+            y_pred.append(img)
+
+        y_true.append(io.imread(filename.replace("1_p", "2_y"), as_gray=True))
+    y_pred, y_true = np.array(y_pred), np.array(y_true)
+
+    if use_naive:
+        y_pred = RetinalDataset.normalize(np.array(y_pred)) / 255
+
+    print(y_true.shape, y_pred.shape)
+
+    for i in range(len(y_pred)):
+        print(i, "DICE", dice_loss_1(y_pred[i], y_true[i]))
+
+    # Confusion matrix
+    threshold_confusion = 0.8
+    print(y_true.max(), y_pred.max())
+    print(y_true.shape, y_pred.shape)
+
+    y_pred = np.where(y_pred > threshold_confusion, 1, 0).astype(int)
+    y_true = y_true.astype(int)
+
+    # plt.figure()
+    # plt.imshow(y_pred[0])
+    # plt.show()
+
+    def __specific(A, B, name="?"):
+        A, B = A.flatten(), B.flatten()
+        print(f"=== \033[90m(name={name})\033[0m ===")
+        confusion = confusion_matrix(A, B)
+        print(confusion)
+        accuracy = 0
+        if float(np.sum(confusion)) != 0:
+            accuracy = float(confusion[0, 0] + confusion[1, 1]) / float(
+                np.sum(confusion)
+            )
+        print("Global Accuracy: " + str(accuracy))
+        specificity = 0
+        if float(confusion[0, 0] + confusion[0, 1]) != 0:
+            specificity = float(confusion[0, 0]) / float(
+                confusion[0, 0] + confusion[0, 1]
+            )
+        print("Specificity: " + str(specificity))
+        sensitivity = 0
+        if float(confusion[1, 1] + confusion[1, 0]) != 0:
+            sensitivity = float(confusion[1, 1]) / float(
+                confusion[1, 1] + confusion[1, 0]
+            )
+        print("Sensitivity: " + str(sensitivity))
+        precision = 0
+        if float(confusion[1, 1] + confusion[0, 1]) != 0:
+            precision = float(confusion[1, 1]) / float(
+                confusion[1, 1] + confusion[0, 1]
+            )
+        print("Precision: " + str(precision))
+        # F1 score
+        F1_score = f1_score(
+            A, B, labels=None, average="binary", sample_weight=None
+        )
+        print("F1 score (F-measure): " + str(F1_score))
+        # Jaccard similarity index
+        jaccard_index = jaccard_score(A, B, average="binary")
+        print("Jaccard similarity score: " + str(jaccard_index))
+
+    __specific(y_true, y_pred, name="all")
+
+    for idx in range(y_pred.shape[0]):
+        __specific(y_true[idx], y_pred[idx], name=idx)
+
+
+################################################################################
+
 if __name__ == "__main__":
+    if args.bonus:
+        bonus()
     if args.train:
         train()
     if args.test:
