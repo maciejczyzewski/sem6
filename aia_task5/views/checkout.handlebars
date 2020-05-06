@@ -1,0 +1,30 @@
+<h1>Checkout <small class="label"><a href="/">back</a></small></h1>
+
+{{#with msg}} <div class="toast">MSG: {{this}}</div><br> {{/with}}
+
+<div>
+	{{#each history}}
+		<div class="card">
+			<div class="card-header">
+				<div class="card-title h5">({{this.product_id}}) {{this.name}}</div>
+			</div>
+			<div class="card-footer">
+				<a href="/a/del/{{this.product_id}}" class="btn btn-error">cancel</a>
+			</div>
+		</div>
+		<br>
+	{{else}}
+
+<div class="empty">
+	<div class="empty-icon">
+		<i class="icon icon-people"></i>
+	</div>
+	<p class="empty-title h5">Pusty koszyk</p>
+	<p class="empty-subtitle">Kliknij na jakis produkt aby to zmienic.</p>
+</div>
+
+	{{/each}}
+</div>
+
+<a href="/a/clear" class="button float-left">clear</a>
+<a href="/a/pay" class="button float-right">pay</a>

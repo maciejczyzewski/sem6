@@ -1,0 +1,66 @@
+<h1 class="logo">Memegro</h1>
+
+{{#with msg}} <div class="toast">MSG: {{this}}</div><br> {{/with}}
+
+<div class="container">
+  <div class="columns">
+	  <div class="column col-6">
+		<h2>Produkty</h2>
+
+<div>
+	{{#each products}}
+		<div class="card">
+			<div class="card-header">
+				<div class="card-title h5">({{this.product_id}}) {{this.name}}</div>
+			</div>
+			<div class="card-footer">
+				<a href="/a/add/{{this.product_id}}" class="btn btn-success">buy</a>
+			</div>
+		</div>
+		<br>
+	{{else}}
+		
+<div class="empty">
+	<div class="empty-icon">
+		<i class="icon icon-people"></i>
+	</div>
+	<p class="empty-title h5">Brak produktow</p>
+	<p class="empty-subtitle">Aktualnie w sklepie nie ma niczego.</p>
+</div>
+
+	{{/each}}
+</div>
+
+	  </div>
+	  <div class="column col-6">
+		<h2>Koszyk</h2>
+
+<div>
+	{{#each history}}
+		<div class="card">
+			<div class="card-header">
+				<div class="card-title h5">({{this.product_id}}) {{this.name}}</div>
+			</div>
+			<div class="card-footer">
+				<a href="/a/del/{{this.product_id}}" class="btn btn-error">cancel</a>
+			</div>
+		</div>
+		<br>
+	{{else}}
+
+<div class="empty">
+	<div class="empty-icon">
+		<i class="icon icon-people"></i>
+	</div>
+	<p class="empty-title h5">Pusty koszyk</p>
+	<p class="empty-subtitle">Kliknij na jakis produkt aby to zmienic.</p>
+</div>
+
+	{{/each}}
+</div>
+
+		<br>
+		<a href="/checkout" class="button float-right">checkout</a>
+	  </div>
+	</div>
+</div>
