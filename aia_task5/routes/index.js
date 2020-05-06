@@ -41,6 +41,7 @@ router.get('/', function(req, res, next) {
         title : 'Memegro (home)',
         products : products,
         history : history,
+        session : session,
         msg : msg
       });
     });
@@ -61,6 +62,7 @@ router.get('/checkout', function(req, res, next) {
           title : 'Memegro (checkout)',
           products : products,
           history : history,
+          session : session,
           msg : msg
         });
       });
