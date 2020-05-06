@@ -44,7 +44,8 @@ router.get('/add/:id', async (req, res, next) => {
       } else {
         console.log(">>>> WRONG!!! <<<<");
         res.cookie('__msg', "someone was faster!");
-        redirect(req, res); // wrong
+        box.del_history_mutex(req.app, session, product_id,
+                              function(_) { redirect(req, res); });
       }
     });
   });

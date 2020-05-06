@@ -74,20 +74,20 @@ const funcs = {
 
   async get_history_winner(app, product_id, callback = function(_) {}) {
     const history = app.locals.db.collection('history');
-    history.find({$query : {product_id : product_id}, $orderby : {time : -1}},
-                 function(err, docs) {
-                   console.log("[+] `history`: wybieram zwyciesce");
-                   docs.toArray().then(function(docs) {
+    history
+        .find(
+            {$query : {product_id : product_id}, $orderby : {time : -1}},
+            )
+          .sort({time: 1}).toArray().then(function(docs) {
                      console.log("=====>", docs);
                      callback(docs);
                    });
-                 });
-  },
+    },
 
   async del_history_mutex(app, session, product_id = null,
                           callback = function(_) {}) {
     var query = {};
-    if (product_id === null) {
+    if (product_id == null) {
       query = {session : session};
     } else {
       query = {session : session, product_id : product_id};
