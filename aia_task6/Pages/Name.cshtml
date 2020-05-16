@@ -1,0 +1,24 @@
+@page
+@{
+	ViewData["Title"] = "Name!";
+	var name = "Robert Paulson";
+
+	if (Request.HttpContext.Request.Method == "POST") {
+		if (!String.IsNullOrWhiteSpace(Request.Form["name"])) {
+			name = Request.Form["name"];
+		}
+	} else {
+		if (!String.IsNullOrWhiteSpace(Request.Query["name"])) {
+			name = Request.Query["name"];
+		}
+	}
+}
+
+<div class="text-center">
+    <h1 class="display-4">Name List</h1>
+
+	<ul>
+	@for (var i = 0; i < 10; i++)
+        {<li>His name is @name</li>}
+	</ul>
+</div>

@@ -1,0 +1,31 @@
+@page
+@using System.Text.Json;
+@using System.Text.Json.Serialization;
+@using Microsoft.AspNetCore.Http
+@{
+	const string list_key = "rules";
+	List<String> rules = (@HttpContext.Session.GetString("rules") == null) ? new
+	List<String>() : JsonSerializer.Deserialize<List<String>>(@HttpContext.Session.GetString("rules"));
+	if (Request.HttpContext.Request.Method == "POST") {
+		if (!String.IsNullOrEmpty(Request.Form["rule"])) {
+			rules.Add(Request.Form["rule"]);
+			string list_string = JsonSerializer.Serialize<List<String>>(rules);
+			HttpContext.Session.SetString(list_key, list_string);
+		}
+	}
+}
+
+<div class="text-center">
+    <form action="" method="POST">
+        <input type="text" id="rule" name="rule" />
+        <button type="submit">Send</button>
+    </form>
+
+    <hr />
+
+    <ul>
+        @foreach (var rule in rules) {
+           <li>@rule</li>
+        }
+    </ul>
+</div>
