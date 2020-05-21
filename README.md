@@ -36,6 +36,13 @@ https://maciejczyzewski.github.io/sem6/
 ![](aia_task4/screen-2.png)
 ![](aia_task4/screen-3.png)
 
+## 07/04/2020: prownolegle_task2
+
+Raport: [**[pdf]**](prownolegle_task2/PR_PROJ1.pdf)
+
+![](prownolegle_task2/screen-1.png)
+![](prownolegle_task2/screen-2.png)
+
 ## 04/04/2020: iwm_task2
 
 Raport: [**[pdf]**](https://github.com/maciejczyzewski/sem6/blob/master/iwm_task2/raport/main.pdf)
