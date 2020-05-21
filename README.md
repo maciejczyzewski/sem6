@@ -1,30 +1,30 @@
 # sem6
 
+## am_task3
+
 ## am_task2
 
 ## am_task1
 
-## am_task1
-
 ## aia_task6
-
-![](aia_task6/screen.png)
 
 ```bash
 $ dotnet new webapp --no-https
 $ dotnet run
 ```
 
-## aia_task5
+![](aia_task6/screen.png)
 
-![](aia_task5/screen-1.png)
-![](aia_task5/screen-2.png)
+## aia_task5
 
 ```bash
 $ npm install
 $ mongod --dbpath=./data   # to run database
 $ node ./bin/www           # to run website
 ```
+
+![](aia_task5/screen-1.png)
+![](aia_task5/screen-2.png)
 
 ## aia_task4
 
@@ -36,9 +36,27 @@ https://maciejczyzewski.github.io/sem6/
 
 ## aia_task3
 
+```
+aia_task3
+├── 15_json.html
+├── 16_http.html
+├── AJAX.html
+├── AJAXEvents.html
+├── AJAXSelectors.html
+├── AJAXStyles.html
+├── Events.html
+├── Selectors.html
+├── Style.html
+└── guitars.json
+```
+
 ## iwm_task2
 
 Raport: [**[pdf]**](https://github.com/maciejczyzewski/sem6/blob/master/iwm_task2/raport/main.pdf)
+
+![](iwm_task2/screen-1.png)
+![](iwm_task2/screen-2.png)
+
 
 ## iwm_task1
 
@@ -64,7 +82,9 @@ Showcase: [**[jupyter notebook]**](https://github.com/maciejczyzewski/sem6/blob/
 
 ## prownolegle_task1
 
-**Raport:** [prownolegle_task1/raport/main.pdf](prownolegle_task1/raport/main.pdf)
+Raport: [**[pdf]**](prownolegle_task1/raport/main.pdf)
+
+![](prownolegle_task1/screen.png)
 
 ## aia_task2
 
@@ -181,8 +201,6 @@ nani.defs = {
 ```
 
 ## aia_task1
-
-**Assignment**
 
 ```bash
 $ npm run install
