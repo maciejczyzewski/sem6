@@ -1,12 +1,14 @@
-# sem6
+<center>
+	<img src="sem6.jpg" />
+</center>
 
-## am_task3
+## 20/05/2020: am_task3
 
-## am_task2
+## 20/05/2020: am_task2
 
-## am_task1
+## 20/05/2020: am_task1
 
-## aia_task6
+## 16/05/2020: aia_task6
 
 ```bash
 $ dotnet new webapp --no-https
@@ -15,7 +17,7 @@ $ dotnet run
 
 ![](aia_task6/screen.png)
 
-## aia_task5
+## 06/05/2020: aia_task5
 
 ```bash
 $ npm install
@@ -26,7 +28,7 @@ $ node ./bin/www           # to run website
 ![](aia_task5/screen-1.png)
 ![](aia_task5/screen-2.png)
 
-## aia_task4
+## 13/04/2020: aia_task4
 
 https://maciejczyzewski.github.io/sem6/
 
@@ -34,7 +36,14 @@ https://maciejczyzewski.github.io/sem6/
 ![](aia_task4/screen-2.png)
 ![](aia_task4/screen-3.png)
 
-## aia_task3
+## 04/04/2020: iwm_task2
+
+Raport: [**[pdf]**](https://github.com/maciejczyzewski/sem6/blob/master/iwm_task2/raport/main.pdf)
+
+![](iwm_task2/screen-1.png)
+![](iwm_task2/screen-2.png)
+
+## 01/04/2020: aia_task3
 
 ```
 aia_task3
@@ -50,15 +59,13 @@ aia_task3
 └── guitars.json
 ```
 
-## iwm_task2
+## 27/03/2020: prownolegle_task1
 
-Raport: [**[pdf]**](https://github.com/maciejczyzewski/sem6/blob/master/iwm_task2/raport/main.pdf)
+Raport: [**[pdf]**](prownolegle_task1/raport/main.pdf)
 
-![](iwm_task2/screen-1.png)
-![](iwm_task2/screen-2.png)
+![](prownolegle_task1/screen.png)
 
-
-## iwm_task1
+## 25/03/2020: iwm_task1
 
 **Symulator tomografu komputerowego**
 
@@ -80,13 +87,7 @@ Showcase: [**[jupyter notebook]**](https://github.com/maciejczyzewski/sem6/blob/
 
 <img src="iwm_task1/raport/filtr_true_pre.png" with="40%" />
 
-## prownolegle_task1
-
-Raport: [**[pdf]**](prownolegle_task1/raport/main.pdf)
-
-![](prownolegle_task1/screen.png)
-
-## aia_task2
+## 20/03/2020: aia_task2
 
 **nani (0.1kB) - toy web framework**
 
@@ -200,7 +201,7 @@ nani.defs = {
 };
 ```
 
-## aia_task1
+## 20/03/2020: aia_task1
 
 ```bash
 $ npm run install
