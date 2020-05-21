@@ -1,5 +1,7 @@
 <p align="center">
 	<img src="sem6.jpg" />
+	<br>
+	<a href="https://github.com/maciejczyzewski/">@maciejczyzewski</a> + <a href="https://github.com/blazejkrzyzanek/">@blazejkrzyzanek</a>
 </p>
 
 ## 20/05/2020: am_task3
