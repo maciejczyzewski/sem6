@@ -80,19 +80,7 @@ Raport: [**[pdf]**](https://github.com/maciejczyzewski/sem6/blob/master/iwm_task
 Implementacja: [**[radon.py]**](https://github.com/maciejczyzewski/sem6/blob/master/iwm_task1/radon.py) |
 Showcase: [**[jupyter notebook]**](https://github.com/maciejczyzewski/sem6/blob/master/iwm_task1/showcase.ipynb)
 
----
-
-**Baseline**
-
-<img src="iwm_task1/raport/filtr_false.png" with="40%" />
-
-**Filtr**
-
-<img src="iwm_task1/raport/filtr_true.png" with="40%" />
-
-**Filtr+Postprocessing**
-
-<img src="iwm_task1/raport/filtr_true_pre.png" with="40%" />
+![](iwm_task1/screen.png)
 
 ## 20/03/2020: aia_task2
 
