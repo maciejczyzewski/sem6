@@ -1,6 +1,6 @@
-<center>
+<p align="center">
 	<img src="sem6.jpg" />
-</center>
+</p>
 
 ## 20/05/2020: am_task3
 
