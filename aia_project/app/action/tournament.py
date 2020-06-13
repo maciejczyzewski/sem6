@@ -199,6 +199,36 @@ def tournament_close(s, tournament, user):
     tournament.matches = []
     for match in store_matches:
         tournament.matches.append(match)
+
+    # XXX: find wildcards
+    cached_ids = []
+    while 1:
+        push_i = 0
+        for match in store_matches:
+            push_user = None
+
+            if (match.user_id_2 is None and match.user_id_1 is not None and
+                    match.id not in cached_ids):
+                push_user = match.user_id_1
+                cached_ids.append(match.id)
+            if (match.user_id_1 is None and match.user_id_2 is not None and
+                    match.id not in cached_ids):
+                push_user = match.user_id_2
+                cached_ids.append(match.id)
+ 
+            if push_user and match.next_match_id:
+                match_next = (Match.query.filter(Match.tournament_id == match.tournament_id).filter(Match.match_id == match.next_match_id).first())
+                if match.match_id % 2 == 1:
+                    match_next.user_id_1 = push_user
+                else:
+                    match_next.user_id_2 = push_user
+                push_i = 1
+                print(f"{match} ==============================> PUSH")
+        s.db.session.commit()
+        print()
+        if push_i == 0:
+            break
+
     s.db.session.commit()
 
     #         --> ALWAYS
