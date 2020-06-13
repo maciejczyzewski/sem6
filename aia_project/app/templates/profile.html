@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="media">
+  <img src="{{ user.get_avatar(size=120) }}" class="mr-3" />
+  <div class="media-body">
+    <h1 class="mt-0">{{ user.name }}</h1>
+    <span>Created <i>{{ user.get_member() }}</i></span>
+   </div>
+</div>
+
+<br>
+
+<h3>Tournaments</h3>
+
+<ol>
+
+{% for tier in tiers %}
+
+<li>
+    <div class="mb-1">
+        <a href="/tournament_display/{{ tier.get_tournament().id }}">{{ tier.get_tournament().title }}</a>
+        <span class="badge badge-dark badge-secondary">
+            <img class="bi glyphicon" src="/assets/people.svg">
+            <span class="bi-inline">{{ tier.get_tournament().max_users }}</span>
+        </span>
+    </div>
+</li>
+
+{% else %}
+
+none tournaments to play!
+
+{% endfor %}
+
+</ol>
+
+<h3>Matches</h3>
+
+{% for match in matches %}
+
+{% if match.get_user_1() is not none and match.get_user_2() is not none and
+match.tournament_id is not none  %}
+
+{% if match.results is not none %}
+<div class="mb-2" style="opacity:0.5">
+{% else %}
+<div class="mb-2">
+{% endif %}
+
+<div>
+({{ match.get_tournament().title }})
+</div>
+
+<img src="{{ match.get_user_1().get_avatar() }}" />
+<a href="/profile/{{ match.get_user_1().id }}">{{ match.get_user_1().name }}</a>
+
+vs
+
+<img src="{{ match.get_user_2().get_avatar() }}" />
+<a href="/profile/{{ match.get_user_2().id }}">{{ match.get_user_2().name }}</a>
+
+{% if match.get_user_1().id == current_user().id or match.get_user_2().id == current_user().id  %}
+
+(<a href="/new_result/{{ match.id }}">set match score</a>)
+
+{% endif %}
+
+</div>
+<br>
+
+{% endif %}
+
+{% else %}
+
+none matches to play!
+
+{% endfor %}
+
+{% endblock %}

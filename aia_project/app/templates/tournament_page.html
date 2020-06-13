@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1>Tournaments</h1>
+
+<ol>
+
+{% for tournament in tournaments.items %}
+
+<li>
+    <div class="mb-1">
+        <a href="/tournament_display/{{ tournament.id }}">{{ tournament.title }}</a>
+        <span class="badge badge-dark badge-secondary">
+            <img class="bi glyphicon" src="/assets/people.svg">
+            <span class="bi-inline">{{ tournament.max_users }}</span>
+        </span>
+    </div>
+</li>
+
+{% else %}
+
+<div class="text-center">
+    <img src="/pics/undraw_empty_xct9.svg" width="40%" />
+    <h2>...empty!</h2>
+</div>
+
+{% endfor %}
+
+</ol>
+
+{% if tournaments.items|length > 0 %}
+
+{% if tournaments.has_prev %}
+    <a href="{{ url_for('tournament.tournament_page', page=tournaments.prev_num) }}">&lt;&lt; Newer tournaments</a>
+{% else %}
+    &lt;&lt; Newer tournaments
+{% endif %} |
+{% if tournaments.has_next %}
+    <a href="{{ url_for('tournament.tournament_page', page=tournaments.next_num) }}">Older tournaments &gt;&gt;</a>
+{% else %}
+    Older tournaments &gt;&gt;
+{% endif %}
+
+{% endif %}
+
+
+{% endblock %}

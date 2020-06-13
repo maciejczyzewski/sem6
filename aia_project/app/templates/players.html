@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1>Players</h1>
+
+<ol>
+
+{% for user in users %}
+
+<li>
+    <div class="mb-1">
+        <img src="{{ user.get_avatar() }}" />
+        <a href="/profile/{{ user.id }}">{{ user.name }}</a>
+    </div>
+</li>
+
+{% else %}
+
+<div class="text-center">
+    <img src="/pics/undraw_empty_xct9.svg" width="40%" />
+    <h2>...empty!</h2>
+</div>
+
+{% endfor %}
+
+</ol>
+
+{% endblock %}

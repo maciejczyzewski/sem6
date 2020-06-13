@@ -1,0 +1,230 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<style>
+#mapid { height: 180px; }
+</style>
+
+<script>
+    $(document).ready(function() {
+        var map = L.map('mapid').setView([{{ location[0] }}, {{ location[1] }}], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        L.marker([{{ location[0] }}, {{ location[1] }}]).addTo(map);
+    });
+</script>
+
+<div class="card">
+  <div class="card-body">
+
+<div class="container">
+  <div class="row">
+      <div class="col-12 col-lg-2">
+
+{% if current_user() %}
+<div class="text-left">
+
+{% if not is_ladder %}
+{% if is_joined %}
+<a href="/unjoin_tournament/{{ tournament.id }}" class="btn btn-warning mb-1">
+    <img class="bi" src="/assets/bell.svg" />
+    Unjoin</a>
+{% else %}
+<a href="/join_tournament/{{ tournament.id }}" class="btn btn-primary mb-1">
+    <img class="bi" src="/assets/bell.svg" />
+    Join</a>
+{% endif %}
+{% else %}
+<div class="mb-2">
+    <mark><i>event started</i></mark>
+</div>
+{% endif %}
+
+{% if is_owner %}
+<a href="/edit_tournament/{{ tournament.id }}" class="btn btn-outline-secondary
+    mb-1">Edit</a>
+{% endif %}
+</div>
+<br>
+{% endif %}
+
+<b>Start date</b><br>
+{{ tournament.get_date_start() }}<br>
+
+<b>Deadline date</b><br>
+{{ tournament.get_date_deadline() }}<br>
+
+
+<div class="d-lg-none"><hr></div>
+<!-- FIXME: flusz to bottom -->
+
+
+      </div>
+      <div class="col-sm" style="display: inline-grid;">
+
+<div class="container p-0">
+<div class="row">
+    <div class="col-sm">
+
+<h1 class="card-title">{{ tournament.title }}</h1>
+{% if tournament.location %}
+    <h6 class="card-subtitle mb-2 text-muted">{{ tournament.location }}</h6>
+{% endif %}
+
+    </div>
+    <div class="col-sm-3 text-right">
+
+<h1>
+<span class="badge badge-dark badge-secondary">
+    <img class="bi glyphicon" src="/assets/people.svg" width="36">
+    <span class="bi-inline">{{ tournament.max_users }}</span>
+</span>
+</h1>
+
+    </div>
+</div>
+      </div>
+
+<div style="display: inline-grid;">
+
+<p class="lead">{{ html|safe }}</p>
+
+<div class="text-right mt-auto">
+    <img src="{{ tournament.owner.get_avatar() }}" />
+    <a href="/profile/{{ tournament.owner.id }}">{{ tournament.owner.name }}</a>
+</div>
+
+</div>
+
+</div>
+</div>
+
+  </div>
+  <br>
+{% if location_map %}
+    <div class="card-img-bottom" id="mapid"></div>
+{% endif %}
+
+</div>
+</div>
+
+<!---------------------- USER LIST ------------------------------>
+
+{% if is_owner %}
+<div class="text-center">
+<br>
+<a href="/close_tournament/{{ tournament.id }}" class="btn btn-danger">
+    {% if is_ladder %}
+    <img class="bi" src="/assets/arrow-clockwise.svg" />
+    <span class="bi-inline">Reset tournament ladder</span>
+    {% else %}
+    <img class="bi" src="/assets/exclamation-octagon-fill.svg" />
+    <span class="bi-inline">Close registration line</span>
+    {% endif %}
+</a>
+<br>
+</div>
+{% endif %}
+
+{% if is_ladder %}
+
+<script>
+
+var minimalData = {
+    // FIXME: up to 2**n
+    teams : {{ js_teams|safe }},
+    results : {{ js_results|safe }}
+}
+
+$(function() {
+    $('#minimal').bracket({
+      init: minimalData,
+      teamWidth: 200,
+    })
+})
+</script>
+
+<div id="minimal" class="d-flex justify-content-center mt-3 mb-3"></div>
+
+<!----------------------------->
+
+<h3>Matches</h3>
+
+{% for match in tournament.matches %}
+
+{% if match.get_user_1() is not none and match.get_user_2() is not none  %}
+
+{% if match.results is not none %}
+<div class="mb-2" style="opacity:0.5">
+{% else %}
+<div class="mb-2">
+{% endif %}
+
+<img src="{{ match.get_user_1().get_avatar() }}" />
+<a href="/profile/{{ match.get_user_1().id }}">{{ match.get_user_1().name }}</a>
+
+vs
+
+<img src="{{ match.get_user_2().get_avatar() }}" />
+<a href="/profile/{{ match.get_user_2().id }}">{{ match.get_user_2().name }}</a>
+
+{% if match.get_user_1().id == current_user().id or match.get_user_2().id == current_user().id  %}
+
+(<a href="/new_result/{{ match.id }}">set match score</a>)
+
+{% endif %}
+
+</div>
+<br>
+
+{% endif %}
+
+{% endfor %}
+
+<!----------------------------->
+
+{% endif %}
+
+<br>
+
+<h3>Players List</h3>
+
+<ol>
+
+{% for tier in tournament.tiers %}
+
+{% if loop.index == tournament.max_users+1 %}
+</ol>
+<hr>
+<h3>Waiting List</h3>
+<ol>
+{% endif %}
+
+<li>
+    <div class="mb-1">
+        <img src="{{ tier.user.get_avatar() }}" />
+        <a href="/profile/{{ tier.user.id }}">{{ tier.user.name }}</a>
+        <mark style="display: inline-block;">
+            <img src="/assets/shield-shaded.svg"/>
+            <span class="bi-inline">{{ tier.rating }}</span>
+        </mark>
+        license={{ tier.license }}
+    </div>
+</li>
+
+{% else %}
+
+<div class="text-center">
+    <img src="/pics/undraw_empty_xct9.svg" width="40%" />
+    <h2>...empty!</h2>
+</div>
+
+{% endfor %}
+
+</ol>
+
+
+{% endblock %}

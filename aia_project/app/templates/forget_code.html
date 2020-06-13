@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1>Type new password ({{email}})</h1>
+
+{% for key in successes %}
+<div class="alert alert-success" role="alert">
+    <span class="badge badge-secondary">{{key}}</span> {{successes[key][0]}}
+</div>
+{% endfor %}
+
+{% for key in errors %}
+<div class="alert alert-danger" role="alert">
+    <span class="badge badge-secondary">{{key}}</span> {{errors[key][0]}}
+</div>
+{% endfor %}
+
+<form method="POST">
+  <div class="form-group">
+    <label for="exampleInputPassword1">Password</label>
+    <input type="password" class="form-control" name="password"
+    placeholder="Enter password">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{% endblock %}
