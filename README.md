@@ -4,6 +4,10 @@
 	<a href="https://github.com/maciejczyzewski/">@maciejczyzewski</a> + <a href="https://github.com/blazejkrzyzanek/">@blazejkrzyzanek</a>
 </p>
 
+## 13/06/2020: aia_project
+
+![](aia_project/screen-1.png)
+
 ## 20/05/2020: am_task3
 
 ## 20/05/2020: am_task2
