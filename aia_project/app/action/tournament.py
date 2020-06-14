@@ -47,14 +47,20 @@ def tournament_create(s, data):
 
 
 def tournament_edit(s, data, tournament):
-    tournament.title = data['title']
-    tournament.date_start = data['date_start']
-    tournament.date_deadline = data['date_deadline']
-    tournament.location = data['location']
-    tournament.max_users = data['max_users']
-    tournament.readme = data['readme']
-    s.db.session.commit()
-    return tournament
+    try:
+        tournament.title = data['title']
+        tournament.date_start = data['date_start']
+        tournament.date_deadline = data['date_deadline']
+        tournament.location = data['location']
+        tournament.max_users = data['max_users']
+        tournament.readme = data['readme']
+        s.db.session.commit()
+        return tournament
+    except Exception as e:
+        s.db.session.rollback()
+        if "UNIQUE constraint failed" in str(e):
+            raise ErrDuplicate()
+
 
 
 def tournament_join(s, data, tournament, user):
@@ -88,7 +94,10 @@ def tournament_unjoin(s, tournament, user):
 
 # FIXME: add tournament delete!!!!
 
-def tournament_close(s, tournament, user):
+def tournament_close(s, tournament, user, force=False):
+    if force is False and tournament.ladder is not None:
+        return False
+
     tiers = tournament.tiers.limit(tournament.max_users).all()
     # FIXME: order users by rating
 

@@ -6,6 +6,21 @@ from app import Service
 service = Service()
 service.start()
 
+############################################
+
+"""
+from celery import Celery
+
+CELERY_BROKER_BACKEND = "db+sqlite:///celery.sqlite"
+CELERY_CACHE_BACKEND = "db+sqlite:///celery.sqlite"
+CELERY_RESULT_BACKEND = "db+sqlite:///celery.sqlite"
+
+celery = Celery('tasks', broker='pyamqp://guest@localhost//')
+"""
+
+############################################
+
+
 class CreateCommand(Command):
     "Runs service creator i.e. database"
 

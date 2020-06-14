@@ -39,6 +39,9 @@ def utility_processor():
 
 @bp.route('/tournament_display/<idx>')
 def tournament_display(idx):
+    from app.cron import check_if_deadline_passed
+    check_if_deadline_passed(app_cls.service)
+    #############################################
     from app.models import Tournament
     tournament = (Tournament.query.filter(Tournament.id == idx).first())
     is_owner = False
@@ -284,7 +287,8 @@ def tournament_close(idx):
         print("NOT OWNER!")
         return redirect(f'/tournament_display/{tournament.id}')
 
-    app.action.tournament.tournament_close(app_cls.service, tournament, user)
+    app.action.tournament.tournament_close(app_cls.service, tournament, user,
+            force=True)
 
     return redirect(f'/tournament_display/{tournament.id}')
 

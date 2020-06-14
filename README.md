@@ -6,6 +6,11 @@
 
 ## 13/06/2020: aia_project
 
+```bash
+$ python3 main.py create # create local sqlite3 database
+$ python3 main.py runserver --debug
+```
+
 ![](aia_project/screen-1.png)
 
 ## 20/05/2020: am_task3
