@@ -114,7 +114,10 @@ def tournament_close(s, tournament, user, force=False):
     if max_users <= 1:
         tree_n = 2**1
     else:
-        tree_n = 2**math.ceil(math.log2(len(tiers)))
+        try:
+            tree_n = 2**math.ceil(math.log2(len(tiers)))
+        except:
+            tree_n = 2**1
 
     print("---------->", tiers)
     print("!"*100)
@@ -204,6 +207,7 @@ def tournament_close(s, tournament, user, force=False):
     print("------------")
 
     tournament.date_deadline = datetime.datetime.utcnow()
+    tournament.date_start = datetime.datetime.utcnow()
     tournament.ladder = ladder_txt
     tournament.matches = []
     for match in store_matches:
