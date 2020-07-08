@@ -1,0 +1,30 @@
+[package]
+name = "pooldance"
+version = "0.0.1"
+authors = [
+	"Maciej A. Czyzewski",
+	"Blazej Krzyzanek"]
+edition = "2018"
+
+[lib]
+name = "pooldance"
+path = "src/lib.rs"
+
+[[bin]]
+name = "pooldance"
+path = "src/bin.rs"
+
+[dependencies]
+actix-web = "2"
+serde = { version = "1.0.106", features = ["derive"] }
+serde_json = "1.0.52"
+# colored = "1.9"
+tokio = { version = "0.2.20", features =["tcp", "macros"] }
+hyper = "0.13.5"
+futures = "0.3"
+env_logger = "0.7.1"
+curl = "0.4.29"
+log = "0.4.0"
+indicatif = "0.14.0"
+actix-rt = "1.0.0"
+rand = "0.7.3"

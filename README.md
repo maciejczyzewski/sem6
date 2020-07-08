@@ -4,6 +4,8 @@
 	<a href="https://github.com/maciejczyzewski/">@maciejczyzewski</a> + <a href="https://github.com/blazejkrzyzanek/">@blazejkrzyzanek</a>
 </p>
 
+## 01/07/2020: sync (past homework)
+
 ## 13/06/2020: aia_project
 
 ```bash
